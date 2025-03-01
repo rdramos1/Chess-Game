@@ -8,8 +8,7 @@ namespace tabuleiro {
         public int moves { get; set; }
         public Board board { get; protected set; }
 
-        public Part(Position position, Board board, Color color) {
-            this.position = position;
+        public Part(Board board, Color color) {
             this.board = board;
             this.color = color;
             this.moves = 0;

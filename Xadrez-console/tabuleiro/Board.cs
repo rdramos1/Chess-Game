@@ -17,5 +17,10 @@ namespace tabuleiro {
             return parts[line, row];
         }
 
+        public void PutPart(Part p, Position pos) {
+            parts[pos.line, pos.row] = p;
+            p.position = pos;
+        }
+
     }
 }
