@@ -5,13 +5,27 @@ using xadrez;
 namespace Xadrez_console {
     class Program {
         static void Main(string[] args) {
-            Board board = new Board(8, 8);
+            ChessMatch match = new ChessMatch();
 
-            board.PutPart(new Tower(board, Color.Black), new Position(0, 0));
+            while (!match.finished) {
+                try {
+                    Console.Clear();
+                    Screen.printboard(match.board);
+                    Console.WriteLine();
 
-            
+                    Console.Write("Origin: ");
+                    Position origin = Screen.readChessPosition().toPosition();
+                    Console.Write("Destiny: ");
+                    Position destiny = Screen.readChessPosition().toPosition();
 
-            Screen.printboard(board);
+                    match.movePart(origin, destiny);
+
+                } catch (BoardException e) {
+                    Console.WriteLine(e.Message);
+                    Console.ReadLine();
+                }
+            }
+
 
         }
     }

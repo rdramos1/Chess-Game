@@ -1,4 +1,5 @@
 ﻿using tabuleiro;
+using xadrez;
 
 namespace Xadrez_console {
     class Screen {
@@ -31,6 +32,13 @@ namespace Xadrez_console {
                 Console.Write(part);
                 Console.ForegroundColor = aux;
             }
+        }
+
+        public static ChessPosition readChessPosition() {
+            string s = Console.ReadLine();
+            char row = s[0];
+            int line = int.Parse(s[1] + "");
+            return new ChessPosition(row, line);
         }
 
     }

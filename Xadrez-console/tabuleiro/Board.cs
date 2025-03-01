@@ -35,6 +35,16 @@ namespace tabuleiro {
             }
         }
 
+        public Part RemovePart(Position pos) {
+            if (part(pos) == null) {
+                return null;
+            }
+            Part aux = part(pos);
+            aux.position = null;
+            parts[pos.line, pos.row] = null;
+            return aux;
+        }
+
         public bool ValidPosition(Position pos) {
             if (pos.line < 0 || pos.line >= line || pos.row < 0 || pos.row >= row) {
                 return false;
