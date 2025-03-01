@@ -10,6 +10,7 @@ namespace Xadrez_console {
             board.PutPart(new Tower(board, Color.Black), new Position(0, 0));
 
             Screen.printboard(board);
+
         }
     }
 }
