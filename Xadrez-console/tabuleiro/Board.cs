@@ -13,6 +13,9 @@ namespace tabuleiro {
             parts = new Part[line, row];
         }
 
+        public Part part(int line, int row) {
+            return parts[line, row];
+        }
 
     }
 }
