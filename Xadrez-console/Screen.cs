@@ -45,7 +45,10 @@ namespace Xadrez_console {
             }
             else {
                 if (part.color == Color.White) {
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(part);
+                    Console.ForegroundColor = aux;
                 }
                 else {
                     ConsoleColor aux = Console.ForegroundColor;

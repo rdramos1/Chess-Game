@@ -21,5 +21,20 @@ namespace tabuleiro {
 
         public abstract bool[,] possibleMovements();
 
+        public bool existPossibleMovements() {
+            bool[,] mat = possibleMovements();
+            for (int i = 0; i < board.line; i++) {
+                for (int j = 0; j < board.row; j++) {
+                    if (mat[i, j]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool canMoveTo(Position pos) {
+            return possibleMovements()[pos.line, pos.row];
+        }
     }
 }

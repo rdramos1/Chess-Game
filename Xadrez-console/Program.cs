@@ -13,8 +13,17 @@ namespace Xadrez_console {
                     Screen.printboard(match.board);
                     Console.WriteLine();
 
+                    Console.WriteLine("Round: " + match.round);
+                    Console.Write("waiting for play: ");
+                    SetConsoleColor(match.Player);
+                    Console.WriteLine(match.Player);
+                    Console.ResetColor();
+
+                    Console.WriteLine();
                     Console.Write("Origin: ");
                     Position origin = Screen.readChessPosition().toPosition();
+                    match.validateOriginPosition(origin);
+
                     bool[,] possiblePositions = match.board.part(origin).possibleMovements();
 
                     Console.Clear();
@@ -23,16 +32,26 @@ namespace Xadrez_console {
                     Console.WriteLine("");
                     Console.Write("Destiny: ");
                     Position destiny = Screen.readChessPosition().toPosition();
+                    match.validateDestinyPosition(origin, destiny);
 
-                    match.movePart(origin, destiny);
+                    match.performPlay(origin, destiny);
 
                 } catch (BoardException e) {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(e.Message);
+                    Console.ResetColor();
                     Console.ReadLine();
                 }
             }
+        }
 
-
+        static void SetConsoleColor(Color player) {
+            if (player == Color.White) {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
         }
     }
 }
