@@ -8,12 +8,15 @@ namespace xadrez {
         public int round { get; private set; }
         public Color Player { get; private set; }
         public bool finished { get; set; }
-
+        private HashSet<Part> parts;
+        private HashSet<Part> capturedParts;
         public ChessMatch() {
             board = new Board(8, 8);
             round = 1;
             Player = Color.White;
             finished = false;
+            parts = new HashSet<Part>();
+            capturedParts = new HashSet<Part>();
             putpart();
         } 
 
@@ -22,6 +25,9 @@ namespace xadrez {
             p.increaseMoves();
             Part capturedPart = board.RemovePart(destiny);
             board.PutPart(p, destiny);
+            if (capturedPart != null) {
+                capturedParts.Add(capturedPart);
+            }
         } 
 
         public void performPlay(Position origin, Position destiny) {
@@ -57,23 +63,49 @@ namespace xadrez {
             }
         }
 
-        private void putpart () {
-            board.PutPart(new Tower(board, Color.White), new ChessPosition('c', 1).toPosition());
-            board.PutPart(new Tower(board, Color.White), new ChessPosition('e', 1).toPosition());
-            board.PutPart(new Tower(board, Color.White), new ChessPosition('c', 2).toPosition());
-            board.PutPart(new Tower(board, Color.White), new ChessPosition('d', 2).toPosition());
-            board.PutPart(new Tower(board, Color.White), new ChessPosition('e', 2).toPosition());
+        public HashSet<Part> capturedPartsByColor(Color color) {
+            HashSet<Part> aux = new HashSet<Part>();
+            foreach (Part x in capturedParts) {
+                if (x.color == color) {
+                    aux.Add(x);
+                }
+            }
+            return aux;
+        }
 
-            board.PutPart(new King(board, Color.White), new ChessPosition('d', 1).toPosition());
+        public HashSet<Part> partsInGame(Color color) {
+            HashSet<Part> aux = new HashSet<Part>();
+            foreach (Part x in parts) {
+                if (x.color == color) {
+                    aux.Add(x);
+                }
+            }
+            aux.ExceptWith(capturedPartsByColor(color));
+            return aux;
+        }
 
-            //adversario
-           board.PutPart(new Tower(board, Color.Black), new ChessPosition('c', 8).toPosition());
-            board.PutPart(new Tower(board, Color.Black), new ChessPosition('e', 8).toPosition());
-            board.PutPart(new Tower(board, Color.Black), new ChessPosition('c', 7).toPosition());
-            board.PutPart(new Tower(board, Color.Black), new ChessPosition('d', 7).toPosition());
-            board.PutPart(new Tower(board, Color.Black), new ChessPosition('e', 7).toPosition());
+        public void putNewPart(char column, int line, Part part) {
+            board.PutPart(part, new ChessPosition(column, line).toPosition());
+            parts.Add(part);
+        }
 
-            board.PutPart(new King(board, Color.Black), new ChessPosition('d', 8).toPosition()); 
+        private void putpart() {
+
+            //brancas
+            putNewPart('c', 1, new Tower(board, Color.White));
+            putNewPart('e', 1, new Tower(board, Color.White));
+            putNewPart('c', 2, new Tower(board, Color.White));
+            putNewPart('d', 2, new Tower(board, Color.White));
+            putNewPart('e', 2, new Tower(board, Color.White));
+            putNewPart('d', 1, new King(board, Color.White));
+
+            //Pretas
+            putNewPart('c', 8, new Tower(board, Color.Black));
+            putNewPart('e', 8, new Tower(board, Color.Black));
+            putNewPart('c', 7, new Tower(board, Color.Black));
+            putNewPart('d', 7, new Tower(board, Color.Black));
+            putNewPart('e', 7, new Tower(board, Color.Black));
+            putNewPart('d', 8, new King(board, Color.Black));
         }
 
     }

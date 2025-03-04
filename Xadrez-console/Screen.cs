@@ -4,6 +4,41 @@ using xadrez;
 namespace Xadrez_console {
     class Screen {
 
+         public static void printmatch(ChessMatch match) {
+            printboard(match.board);
+            Console.WriteLine();
+            printCapturedParts(match);
+            Console.WriteLine();
+            Console.WriteLine("Round: " + match.round);
+
+            Console.Write("waiting for play: ");
+            SetConsoleColor(match.Player);
+            Console.WriteLine(match.Player);
+            Console.ResetColor();
+        }
+
+        public static void printCapturedParts(ChessMatch match) {
+            Console.WriteLine("Captured parts: ");
+            Console.Write("White: ");
+            SetConsoleColor(Color.White);
+            printCollection(match.capturedPartsByColor(Color.White));
+            Console.WriteLine();
+            Console.ResetColor();
+            Console.Write("Black: ");
+            SetConsoleColor(Color.Black);
+            printCollection(match.capturedPartsByColor(Color.Black));
+            Console.WriteLine();
+            Console.ResetColor();
+        }
+
+        public static void printCollection(HashSet<Part> collection) {
+            Console.Write("[");
+            foreach (Part x in collection) {
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
+
         public static void printboard(Board board) {
 
             for (int i = 0; i < board.line; i++) {
@@ -66,6 +101,13 @@ namespace Xadrez_console {
             int line = int.Parse(s[1] + "");
             return new ChessPosition(row, line);
         }
-
+        private static void SetConsoleColor(Color player) {
+            if (player == Color.White) {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+        }
     }
 }

@@ -10,14 +10,7 @@ namespace Xadrez_console {
             while (!match.finished) {
                 try {
                     Console.Clear();
-                    Screen.printboard(match.board);
-                    Console.WriteLine();
-
-                    Console.WriteLine("Round: " + match.round);
-                    Console.Write("waiting for play: ");
-                    SetConsoleColor(match.Player);
-                    Console.WriteLine(match.Player);
-                    Console.ResetColor();
+                    Screen.printmatch(match);
 
                     Console.WriteLine();
                     Console.Write("Origin: ");
@@ -45,13 +38,5 @@ namespace Xadrez_console {
             }
         }
 
-        static void SetConsoleColor(Color player) {
-            if (player == Color.White) {
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            else {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            }
-        }
     }
 }
