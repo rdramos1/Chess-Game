@@ -10,7 +10,12 @@
         }
 
         public override string ToString() {
-            return line + ", " + row; 
+            return line + ", " + row;
+        }
+
+        public void setValue(int line, int row) {
+            this.line = line;
+            this.row = row;
         }
 
     }

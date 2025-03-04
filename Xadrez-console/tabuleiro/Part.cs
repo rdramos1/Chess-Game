@@ -1,7 +1,7 @@
 ﻿using tabuleiro;
 
 namespace tabuleiro {
-    internal class Part {
+    abstract class Part {
 
         public Position position { get; set; }
         public Color color { get; set; }
@@ -9,6 +9,7 @@ namespace tabuleiro {
         public Board board { get; protected set; }
 
         public Part(Board board, Color color) {
+            this.position = null;
             this.board = board;
             this.color = color;
             this.moves = 0;
@@ -18,5 +19,7 @@ namespace tabuleiro {
             moves++;
         }
 
-}
+        public abstract bool[,] possibleMovements();
+
+    }
 }
