@@ -10,13 +10,15 @@ namespace Xadrez_console {
             printCapturedParts(match);
             Console.WriteLine();
             Console.WriteLine("Round: " + match.round);
-
-            Console.Write("waiting for play: ");
-            SetConsoleColor(match.Player);
-            Console.WriteLine(match.Player);
-            Console.ResetColor();
-            if(match.check) {
-                Console.WriteLine("CHECK!");
+            if(!match.finished) {
+                Console.WriteLine("waiting for play: " + match.Player);
+                if (match.check) {
+                    Console.WriteLine("CHECK!");
+                }
+            }
+            else {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + match.Player);
             }
         }
 
@@ -99,7 +101,7 @@ namespace Xadrez_console {
         }
 
         public static ChessPosition readChessPosition() {
-            string s = Console.ReadLine();
+            string s = Console.ReadLine().Replace(" ",  "");
             char row = s[0];
             int line = int.Parse(s[1] + "");
             return new ChessPosition(row, line);

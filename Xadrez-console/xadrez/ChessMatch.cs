@@ -21,7 +21,7 @@ namespace xadrez {
             parts = new HashSet<Part>();
             capturedParts = new HashSet<Part>();
             putpart();
-        } 
+        }
 
         public Part movePart(Position origin, Position destiny) {
             Part p = board.RemovePart(origin);
@@ -32,7 +32,7 @@ namespace xadrez {
                 capturedParts.Add(capturedPart);
             }
             return capturedPart;
-        } 
+        }
 
         public void undoPlay(Position origin, Position destiny, Part capturedPart) {
             Part p = board.RemovePart(destiny);
@@ -47,7 +47,7 @@ namespace xadrez {
         public void performPlay(Position origin, Position destiny) {
             Part capturedPart = movePart(origin, destiny);
 
-            if(inCheck(Player)) {
+            if (inCheck(Player)) {
                 undoPlay(origin, destiny, capturedPart);
                 throw new BoardException("You can't put yourself in check!");
             }
@@ -59,8 +59,13 @@ namespace xadrez {
                 check = false;
             }
 
-            round++;
-            changePlayer();
+            if (checkMate(adversary(Player))) {
+                finished = true;
+            }
+            else {
+                round++;
+                changePlayer();
+            }
 
         }
 
@@ -83,7 +88,7 @@ namespace xadrez {
         }
 
         private void changePlayer() {
-            if(Player == Color.White) {
+            if (Player == Color.White) {
                 Player = Color.Black;
             }
             else {
@@ -126,7 +131,7 @@ namespace xadrez {
                 if (x is King) {
                     return x;
                 }
-            } 
+            }
             return null;
         }
 
@@ -142,6 +147,30 @@ namespace xadrez {
                 }
             }
             return false;
+        }
+
+        public bool checkMate(Color color) {
+            if (!inCheck(color)) {
+                return false;
+            }
+            foreach (Part x in partsInGame(color)) {
+                bool[,] mat = x.possibleMovements();
+                for (int i = 0; i < board.line; i++) {
+                    for (int j = 0; j < board.row; j++) {
+                        if (mat[i, j]) {
+                            Position origin = x.position;
+                            Position destiny = new Position(i, j);
+                            Part capturedPart = movePart(origin, destiny);
+                            bool checkTest = inCheck(color);
+                            undoPlay(origin, destiny, capturedPart);
+                            if (!checkTest) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void putNewPart(char column, int line, Part part) {

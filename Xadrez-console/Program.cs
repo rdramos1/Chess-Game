@@ -36,6 +36,8 @@ namespace Xadrez_console {
                     Console.ReadLine();
                 }
             }
+            Console.Clear();
+            Screen.printmatch(match);
         }
 
     }
