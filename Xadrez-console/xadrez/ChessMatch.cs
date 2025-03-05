@@ -10,17 +10,20 @@ namespace xadrez {
         public bool finished { get; set; }
         private HashSet<Part> parts;
         private HashSet<Part> capturedParts;
+        public bool check { get; private set; }
+
         public ChessMatch() {
             board = new Board(8, 8);
             round = 1;
             Player = Color.White;
             finished = false;
+            check = false;
             parts = new HashSet<Part>();
             capturedParts = new HashSet<Part>();
             putpart();
         } 
 
-        public void movePart(Position origin, Position destiny) {
+        public Part movePart(Position origin, Position destiny) {
             Part p = board.RemovePart(origin);
             p.increaseMoves();
             Part capturedPart = board.RemovePart(destiny);
@@ -28,12 +31,37 @@ namespace xadrez {
             if (capturedPart != null) {
                 capturedParts.Add(capturedPart);
             }
+            return capturedPart;
         } 
 
+        public void undoPlay(Position origin, Position destiny, Part capturedPart) {
+            Part p = board.RemovePart(destiny);
+            p.decreaseMoves();
+            if (capturedPart != null) {
+                board.PutPart(capturedPart, destiny);
+                capturedParts.Remove(capturedPart);
+            }
+            board.PutPart(p, origin);
+        }
+
         public void performPlay(Position origin, Position destiny) {
-            movePart(origin, destiny);
+            Part capturedPart = movePart(origin, destiny);
+
+            if(inCheck(Player)) {
+                undoPlay(origin, destiny, capturedPart);
+                throw new BoardException("You can't put yourself in check!");
+            }
+
+            if (inCheck(adversary(Player))) {
+                check = true;
+            }
+            else {
+                check = false;
+            }
+
             round++;
             changePlayer();
+
         }
 
         public void validateOriginPosition(Position pos) {
@@ -82,6 +110,38 @@ namespace xadrez {
             }
             aux.ExceptWith(capturedPartsByColor(color));
             return aux;
+        }
+
+        private Color adversary(Color color) {
+            if (color == Color.White) {
+                return Color.Black;
+            }
+            else {
+                return Color.White;
+            }
+        }
+
+        private Part king(Color color) {
+            foreach (Part x in partsInGame(color)) {
+                if (x is King) {
+                    return x;
+                }
+            } 
+            return null;
+        }
+
+        public bool inCheck(Color color) {
+            Part R = king(color);
+            if (R == null) {
+                throw new BoardException("There is no king of color " + color + " on the board!");
+            }
+            foreach (Part x in partsInGame(adversary(color))) {
+                bool[,] mat = x.possibleMovements();
+                if (mat[R.position.line, R.position.row]) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void putNewPart(char column, int line, Part part) {

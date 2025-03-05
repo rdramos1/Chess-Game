@@ -15,6 +15,9 @@ namespace Xadrez_console {
             SetConsoleColor(match.Player);
             Console.WriteLine(match.Player);
             Console.ResetColor();
+            if(match.check) {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void printCapturedParts(ChessMatch match) {

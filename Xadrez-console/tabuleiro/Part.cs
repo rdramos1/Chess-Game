@@ -19,6 +19,10 @@ namespace tabuleiro {
             moves++;
         }
 
+        public void decreaseMoves() {
+            moves--;
+        }
+
         public abstract bool[,] possibleMovements();
 
         public bool existPossibleMovements() {
