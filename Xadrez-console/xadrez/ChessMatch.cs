@@ -179,22 +179,43 @@ namespace xadrez {
         }
 
         private void putpart() {
-
+            
             //brancas
-            putNewPart('c', 1, new Tower(board, Color.White));
-            putNewPart('e', 1, new Tower(board, Color.White));
-            putNewPart('c', 2, new Tower(board, Color.White));
-            putNewPart('d', 2, new Tower(board, Color.White));
-            putNewPart('e', 2, new Tower(board, Color.White));
-            putNewPart('d', 1, new King(board, Color.White));
+            putNewPart('a', 1, new Tower(board, Color.White));
+            putNewPart('b', 1, new Horse(board, Color.White));
+            putNewPart('c', 1, new Bishop(board, Color.White));
+            putNewPart('d', 1, new Queen(board, Color.White));
+            putNewPart('e', 1, new King(board, Color.White));
+            putNewPart('f', 1, new Bishop(board, Color.White));
+            putNewPart('g', 1, new Horse(board, Color.White));
+            putNewPart('h', 1, new Tower(board, Color.White));
+            putNewPart('a', 2, new Pawn(board, Color.White));
+            putNewPart('b', 2, new Pawn(board, Color.White));
+            putNewPart('c', 2, new Pawn(board, Color.White));
+            putNewPart('d', 2, new Pawn(board, Color.White));
+            putNewPart('e', 2, new Pawn(board, Color.White));
+            putNewPart('f', 2, new Pawn(board, Color.White));
+            putNewPart('g', 2, new Pawn(board, Color.White));
+            putNewPart('h', 2, new Pawn(board, Color.White));
 
-            //Pretas
-            putNewPart('c', 8, new Tower(board, Color.Black));
-            putNewPart('e', 8, new Tower(board, Color.Black));
-            putNewPart('c', 7, new Tower(board, Color.Black));
-            putNewPart('d', 7, new Tower(board, Color.Black));
-            putNewPart('e', 7, new Tower(board, Color.Black));
-            putNewPart('d', 8, new King(board, Color.Black));
+            //pretas
+            putNewPart('a', 8, new Tower(board, Color.Black));
+            putNewPart('b', 8, new Horse(board, Color.Black));
+            putNewPart('c', 8, new Bishop(board, Color.Black));
+            putNewPart('d', 8, new Queen(board, Color.Black));
+            putNewPart('e', 8, new King(board, Color.Black));
+            putNewPart('f', 8, new Bishop(board, Color.Black));
+            putNewPart('g', 8, new Horse(board, Color.Black));
+            putNewPart('h', 8, new Tower(board, Color.Black));
+            putNewPart('a', 7, new Pawn(board, Color.Black));
+            putNewPart('b', 7, new Pawn(board, Color.Black));
+            putNewPart('c', 7, new Pawn(board, Color.Black));
+            putNewPart('d', 7, new Pawn(board, Color.Black));
+            putNewPart('e', 7, new Pawn(board, Color.Black));
+            putNewPart('f', 7, new Pawn(board, Color.Black));
+            putNewPart('g', 7, new Pawn(board, Color.Black));
+            putNewPart('h', 7, new Pawn(board, Color.Black));
+
         }
 
     }
