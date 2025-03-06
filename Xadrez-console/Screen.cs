@@ -101,7 +101,10 @@ namespace Xadrez_console {
         }
 
         public static ChessPosition readChessPosition() {
-            string s = Console.ReadLine().Replace(" ",  "");
+            string s = Console.ReadLine().Replace(" ", "");
+            if (string.IsNullOrEmpty(s) || s.Length < 2) {
+                throw new ArgumentException("Invalid input. Please enter a valid chess position.");
+            }
             char row = s[0];
             int line = int.Parse(s[1] + "");
             return new ChessPosition(row, line);

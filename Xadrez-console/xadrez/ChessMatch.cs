@@ -119,30 +119,42 @@ namespace xadrez {
                 throw new BoardException("You can't put yourself in check!");
             }
 
-            if (inCheck(adversary(Player))) {
-                check = true;
-            }
-            else {
-                check = false;
-            }
-
-            if (checkMate(adversary(Player))) {
-                finished = true;
-            }
-            else {
-                round++;
-                changePlayer();
-            }
-
             Part p = board.part(destiny);
 
-            // #specialmove en passant
+            // #specialmove promotion
+            if (p is Pawn) {
+                if ((p.color == Color.White && destiny.line == 0) || (p.color == Color.Black && destiny.line == 7)) {
+                    p = board.RemovePart(destiny);
+                    parts.Remove(p);
+                    Part queen = new Queen(board, p.color);
+                    board.PutPart(queen, destiny);
+                    parts.Add(queen);
+                }
 
-            if (p is Pawn && (destiny.line == origin.line - 2 || destiny.line == origin.line + 2)) { 
-                vulnerableEnPassant = p;
-            }
-            else {
-                vulnerableEnPassant = null;
+
+                if (inCheck(adversary(Player))) {
+                    check = true;
+                }
+                else {
+                    check = false;
+                }
+
+                if (checkMate(adversary(Player))) {
+                    finished = true;
+                }
+                else {
+                    round++;
+                    changePlayer();
+                }
+
+                // #specialmove en passant
+
+                if (p is Pawn && (destiny.line == origin.line - 2 || destiny.line == origin.line + 2)) {
+                    vulnerableEnPassant = p;
+                }
+                else {
+                    vulnerableEnPassant = null;
+                }
             }
         }
 
@@ -293,7 +305,7 @@ namespace xadrez {
             putNewPart('f', 7, new Pawn(board, Color.Black, this));
             putNewPart('g', 7, new Pawn(board, Color.Black, this));
             putNewPart('h', 7, new Pawn(board, Color.Black, this));
-
+            
         }
 
     }
