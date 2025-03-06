@@ -2,10 +2,12 @@
 
 namespace xadrez {
     class Pawn : Part {
-        public Pawn(Board board, Color color) : base(board, color) {
+        private ChessMatch match;
+        public Pawn(Board board, Color color, ChessMatch match) : base(board, color) {
+            this.match = match;
         }
         public override string ToString() {
-            return "T";
+            return "P";
         }
 
         private bool enemyExist(Position pos) {
@@ -43,6 +45,19 @@ namespace xadrez {
                 if (board.ValidPosition(pos) && enemyExist(pos)) {
                     mat[pos.line, pos.row] = true;
                 }
+
+                // #SpecialMove En Passant
+                if (position.line == 3) {
+                    Position left = new Position(position.line, position.row - 1);
+                    if (board.ValidPosition(left) && enemyExist(left) && board.part(left) == match.vulnerableEnPassant) {
+                        mat[left.line - 1, left.row] = true;
+                    }
+                    Position right = new Position(position.line, position.row + 1);
+                    if (board.ValidPosition(right) && enemyExist(right) && board.part(right) == match.vulnerableEnPassant) {
+                        mat[right.line - 1, right.row] = true;
+                    }
+                }
+
             }
             else {
                 pos.setValue(position.line + 1, position.row);
@@ -62,8 +77,19 @@ namespace xadrez {
                 if (board.ValidPosition(pos) && enemyExist(pos)) {
                     mat[pos.line, pos.row] = true;
                 }
-            }
 
+                // #SpecialMove En Passant
+                if (position.line == 4) {
+                    Position left = new Position(position.line, position.row - 1);
+                    if (board.ValidPosition(left) && enemyExist(left) && board.part(left) == match.vulnerableEnPassant) {
+                        mat[left.line + 1, left.row] = true;
+                    }
+                    Position right = new Position(position.line, position.row + 1);
+                    if (board.ValidPosition(right) && enemyExist(right) && board.part(right) == match.vulnerableEnPassant) {
+                        mat[right.line + 1, right.row] = true;
+                    }
+                }
+            }
             return mat;
         }
     }

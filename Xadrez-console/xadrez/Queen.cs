@@ -5,7 +5,7 @@ namespace xadrez {
         public Queen(Board board, Color color) : base(board, color) {
         }
         public override string ToString() {
-            return "T";
+            return "Q";
         }
 
         private bool CanMove(Position pos) {
